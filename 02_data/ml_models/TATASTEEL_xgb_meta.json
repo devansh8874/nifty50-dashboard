@@ -1,0 +1,22 @@
+{
+  "symbol": "TATASTEEL",
+  "feature_cols": [
+    "close",
+    "RSI",
+    "MA_20",
+    "MA_50",
+    "MA_200",
+    "OBV_Rising",
+    "Volume_Ratio",
+    "BB_Pct",
+    "BB_Width",
+    "Daily_Return",
+    "Return_5d",
+    "MA_20_above_50",
+    "Price_Above_MA200"
+  ],
+  "mae": 15.15,
+  "rmse": 19.78,
+  "mape": 9.09,
+  "train_rows": 2459
+}

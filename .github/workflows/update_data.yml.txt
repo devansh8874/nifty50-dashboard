@@ -1,0 +1,106 @@
+# ==============================================================================
+#  .github/workflows/update_data.yml
+#  Daily pipeline: fetch NIFTY 50 data → compute indicators + ML → commit CSVs
+#  Streamlit Cloud auto-redeploys when it detects new commits.
+#
+#  HOW TO ADD THIS FILE:
+#    1. In your repo root, create folder:  .github/workflows/
+#    2. Save this file as:                 .github/workflows/update_data.yml
+#    3. git add . && git commit -m "Add GitHub Actions pipeline" && git push
+#    4. Go to GitHub → Actions tab → you'll see the workflow listed
+#    5. Click "Run workflow" to test it manually the first time
+# ==============================================================================
+
+name: Daily NIFTY 50 Data Pipeline
+
+on:
+  schedule:
+    # 6:30 AM IST = 1:00 AM UTC  (IST = UTC+5:30)
+    - cron: "0 1 * * 1-5"   # Mon–Fri only (market days)
+
+  # Allow manual trigger from GitHub Actions tab
+  workflow_dispatch:
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90        # pipeline takes ~40–60 min for all 50 stocks
+
+    steps:
+      # ── 1. Checkout repo ────────────────────────────────────────────────────
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      # ── 2. Set up Python ────────────────────────────────────────────────────
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+          cache-dependency-path: requirements_pipeline.txt
+
+      # ── 3. Install pipeline dependencies (NOT streamlit deps) ────────────────
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements_pipeline.txt
+
+      # ── 4. Run data updater (incremental — only fetches new rows) ────────────
+      - name: Step 1 — Fetch NIFTY 50 OHLCV data
+        run: |
+          echo "=== Running data updater ==="
+          python 01_data_updater.py
+          echo "=== Data updater complete ==="
+
+      # ── 5. Run ML pipeline (indicators + signals + ARIMA + Prophet + XGBoost)
+      - name: Step 2 — Compute indicators + ML forecasts
+        run: |
+          echo "=== Running ML pipeline ==="
+          python 02_ml_model.py
+          echo "=== ML pipeline complete ==="
+
+      # ── 6. Write timestamp so app.py can display "last updated" ─────────────
+      - name: Write last-run timestamp
+        run: |
+          echo "$(date -u '+%Y-%m-%d %H:%M UTC') via GitHub Actions" \
+            > 02_data/.last_run
+
+      # ── 7. Commit updated CSVs back to repo ─────────────────────────────────
+      #    Streamlit Cloud watches the repo and auto-redeploys on new commits.
+      - name: Commit and push updated data
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add 02_data/nifty50_historical_master.csv \
+                  02_data/nifty50_with_indicators.csv   \
+                  02_data/latest_signals_summary.csv    \
+                  02_data/ml_forecasts.csv              \
+                  02_data/backtest_results.csv          \
+                  02_data/.last_run                     \
+                  02_data/individual_stocks/            || true
+
+          # Only commit if something changed
+          git diff --staged --quiet && echo "No data changes today." || \
+            git commit -m "chore: daily data update $(date -u '+%Y-%m-%d')"
+
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # ── 8. Print summary ─────────────────────────────────────────────────────
+      - name: Print output summary
+        if: always()
+        run: |
+          echo "=== Pipeline Summary ==="
+          if [ -f 02_data/latest_signals_summary.csv ]; then
+            echo "Signals file: $(wc -l < 02_data/latest_signals_summary.csv) rows"
+          fi
+          if [ -f 02_data/ml_forecasts.csv ]; then
+            echo "Forecasts file: $(wc -l < 02_data/ml_forecasts.csv) rows"
+          fi
+          if [ -f 02_data/.last_run ]; then
+            echo "Last run: $(cat 02_data/.last_run)"
+          fi

@@ -1,0 +1,13 @@
+# ==============================================================================
+#  requirements_pipeline.txt  —  GitHub Actions ONLY
+#  Used by .github/workflows/update_data.yml to run the pipeline.
+#  NOT used by Streamlit Cloud.
+# ==============================================================================
+
+yfinance>=0.2.36
+pandas>=2.0.0
+numpy>=1.24.0
+pmdarima>=2.0.4
+prophet>=1.1.5
+xgboost>=2.0.0
+scikit-learn>=1.3.0

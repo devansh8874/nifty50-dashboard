@@ -1,0 +1,22 @@
+{
+  "symbol": "LT",
+  "feature_cols": [
+    "close",
+    "RSI",
+    "MA_20",
+    "MA_50",
+    "MA_200",
+    "OBV_Rising",
+    "Volume_Ratio",
+    "BB_Pct",
+    "BB_Width",
+    "Daily_Return",
+    "Return_5d",
+    "MA_20_above_50",
+    "Price_Above_MA200"
+  ],
+  "mae": 158.47,
+  "rmse": 220.38,
+  "mape": 4.24,
+  "train_rows": 2459
+}

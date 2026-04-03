@@ -1,0 +1,22 @@
+{
+  "symbol": "BAJAJFINSV",
+  "feature_cols": [
+    "close",
+    "RSI",
+    "MA_20",
+    "MA_50",
+    "MA_200",
+    "OBV_Rising",
+    "Volume_Ratio",
+    "BB_Pct",
+    "BB_Width",
+    "Daily_Return",
+    "Return_5d",
+    "MA_20_above_50",
+    "Price_Above_MA200"
+  ],
+  "mae": 163.05,
+  "rmse": 205.19,
+  "mape": 8.24,
+  "train_rows": 2459
+}

@@ -1,0 +1,22 @@
+{
+  "symbol": "NTPC",
+  "feature_cols": [
+    "close",
+    "RSI",
+    "MA_20",
+    "MA_50",
+    "MA_200",
+    "OBV_Rising",
+    "Volume_Ratio",
+    "BB_Pct",
+    "BB_Width",
+    "Daily_Return",
+    "Return_5d",
+    "MA_20_above_50",
+    "Price_Above_MA200"
+  ],
+  "mae": 25.6,
+  "rmse": 35.72,
+  "mape": 6.92,
+  "train_rows": 2459
+}

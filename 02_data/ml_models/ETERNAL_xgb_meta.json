@@ -1,0 +1,22 @@
+{
+  "symbol": "ETERNAL",
+  "feature_cols": [
+    "close",
+    "RSI",
+    "MA_20",
+    "MA_50",
+    "MA_200",
+    "OBV_Rising",
+    "Volume_Ratio",
+    "BB_Pct",
+    "BB_Width",
+    "Daily_Return",
+    "Return_5d",
+    "MA_20_above_50",
+    "Price_Above_MA200"
+  ],
+  "mae": 26.91,
+  "rmse": 33.08,
+  "mape": 8.6,
+  "train_rows": 879
+}

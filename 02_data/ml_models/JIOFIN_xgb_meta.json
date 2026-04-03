@@ -1,0 +1,22 @@
+{
+  "symbol": "JIOFIN",
+  "feature_cols": [
+    "close",
+    "RSI",
+    "MA_20",
+    "MA_50",
+    "MA_200",
+    "OBV_Rising",
+    "Volume_Ratio",
+    "BB_Pct",
+    "BB_Width",
+    "Daily_Return",
+    "Return_5d",
+    "MA_20_above_50",
+    "Price_Above_MA200"
+  ],
+  "mae": 29.85,
+  "rmse": 36.83,
+  "mape": 12.03,
+  "train_rows": 381
+}

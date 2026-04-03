@@ -1,0 +1,22 @@
+{
+  "symbol": "DRREDDY",
+  "feature_cols": [
+    "close",
+    "RSI",
+    "MA_20",
+    "MA_50",
+    "MA_200",
+    "OBV_Rising",
+    "Volume_Ratio",
+    "BB_Pct",
+    "BB_Width",
+    "Daily_Return",
+    "Return_5d",
+    "MA_20_above_50",
+    "Price_Above_MA200"
+  ],
+  "mae": 50.17,
+  "rmse": 62.87,
+  "mape": 3.91,
+  "train_rows": 2459
+}
