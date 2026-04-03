@@ -1,16 +1,3 @@
-# ==============================================================================
-#  .github/workflows/update_data.yml
-#  Daily pipeline: fetch NIFTY 50 data → compute indicators + ML → commit CSVs
-#  Streamlit Cloud auto-redeploys when it detects new commits.
-#
-#  HOW TO ADD THIS FILE:
-#    1. In your repo root, create folder:  .github/workflows/
-#    2. Save this file as:                 .github/workflows/update_data.yml
-#    3. git add . && git commit -m "Add GitHub Actions pipeline" && git push
-#    4. Go to GitHub → Actions tab → you'll see the workflow listed
-#    5. Click "Run workflow" to test it manually the first time
-# ==============================================================================
-
 name: Daily NIFTY 50 Data Pipeline
 
 on:
